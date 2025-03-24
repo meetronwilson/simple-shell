@@ -5,17 +5,22 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import {
   BarChart3,
-  Calendar,
   ChevronsLeft,
   ChevronsRight,
-  CreditCard,
-  Home,
   LayoutDashboard,
   LogOut,
   Menu,
   Settings,
   User,
   Users,
+  Bell,
+  ChevronUp,
+  Sun,
+  Moon,
+  ChevronDown,
+  List,
+  UserPlus,
+  UserCircle,
 } from "lucide-react"
 import { useLayoutState } from "@/hooks/useLayoutState"
 import { cn } from "@/lib/utils"
@@ -25,7 +30,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
@@ -33,39 +37,51 @@ import { Sheet, SheetContent } from "@/components/ui/sheet"
 
 const navigationItems = [
   {
-    title: "Dashboard",
-    icon: LayoutDashboard,
-    href: "/dashboard",
+    group: "Dashboards",
+    items: [
+      {
+        title: "Dashboard",
+        icon: LayoutDashboard,
+        href: "/dashboard",
+      },
+      {
+        title: "Analytics",
+        icon: BarChart3,
+        href: "/analytics",
+      },
+    ],
   },
   {
-    title: "Home",
-    icon: Home,
-    href: "/",
-  },
-  {
-    title: "Customers",
-    icon: Users,
-    href: "/customers",
-  },
-  {
-    title: "Analytics",
-    icon: BarChart3,
-    href: "/analytics",
-  },
-  {
-    title: "Calendar",
-    icon: Calendar,
-    href: "/calendar",
-  },
-  {
-    title: "Billing",
-    icon: CreditCard,
-    href: "/billing",
-  },
-  {
-    title: "Settings",
-    icon: Settings,
-    href: "/settings",
+    group: "General",
+    items: [
+      {
+        title: "Settings",
+        icon: Settings,
+        href: "/settings",
+      },
+      {
+        title: "Customers",
+        icon: Users,
+        href: "/customers",
+        subItems: [
+          {
+            title: "List Customers",
+            icon: List,
+            href: "/customers/list",
+          },
+          {
+            title: "Create Customer",
+            icon: UserPlus,
+            href: "/customers/create",
+          },
+          {
+            title: "Customer Details",
+            icon: UserCircle,
+            href: "/customers/details",
+          },
+        ],
+      },
+    ],
   },
 ]
 
@@ -73,10 +89,19 @@ export default function Sidebar() {
   const pathname = usePathname()
   const { isSidebarOpen, toggleSidebar } = useLayoutState()
   const [isMobileOpen, setIsMobileOpen] = React.useState(false)
+  const [expandedItems, setExpandedItems] = React.useState<string[]>([])
 
   // For mobile sidebar
   const toggleMobileSidebar = () => setIsMobileOpen(!isMobileOpen)
   const closeMobileSidebar = () => setIsMobileOpen(false)
+
+  const toggleExpand = (title: string) => {
+    setExpandedItems((prev) =>
+      prev.includes(title)
+        ? prev.filter((item) => item !== title)
+        : [...prev, title]
+    )
+  }
 
   // Sidebar content that's shared between desktop and mobile
   const sidebarContent = (
@@ -103,58 +128,164 @@ export default function Sidebar() {
           </Button>
         </div>
 
-        <nav className="space-y-1">
-          {navigationItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={cn(
-                "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
-                pathname === item.href ? "bg-primary text-primary-foreground" : "hover:bg-muted",
+        <nav className="space-y-6">
+          {navigationItems.map((group) => (
+            <div key={group.group} className="space-y-1">
+              {isSidebarOpen && (
+                <h2 className="px-2 text-xs font-semibold text-muted-foreground tracking-wider uppercase">
+                  {group.group}
+                </h2>
               )}
-              onClick={closeMobileSidebar}
-            >
-              <item.icon className="h-5 w-5" />
-              {isSidebarOpen && <span>{item.title}</span>}
-            </Link>
+              <div className="space-y-1">
+                {group.items.map((item) => (
+                  <div key={item.href}>
+                    {item.subItems ? (
+                      <>
+                        <button
+                          onClick={() => toggleExpand(item.title)}
+                          className={cn(
+                            "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors w-full",
+                            pathname.startsWith(item.href) ? "bg-primary text-primary-foreground" : "hover:bg-muted",
+                          )}
+                        >
+                          <item.icon className="h-5 w-5" />
+                          {isSidebarOpen && (
+                            <>
+                              <span className="flex-1 text-left">{item.title}</span>
+                              <ChevronDown
+                                className={cn(
+                                  "h-4 w-4 transition-transform",
+                                  expandedItems.includes(item.title) && "rotate-180"
+                                )}
+                              />
+                            </>
+                          )}
+                        </button>
+                        {isSidebarOpen && expandedItems.includes(item.title) && (
+                          <div className="ml-6 mt-1 space-y-1">
+                            {item.subItems.map((subItem) => (
+                              <Link
+                                key={subItem.href}
+                                href={subItem.href}
+                                className={cn(
+                                  "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                                  pathname === subItem.href ? "bg-primary text-primary-foreground" : "hover:bg-muted",
+                                )}
+                                onClick={closeMobileSidebar}
+                              >
+                                <subItem.icon className="h-4 w-4" />
+                                <span>{subItem.title}</span>
+                              </Link>
+                            ))}
+                          </div>
+                        )}
+                      </>
+                    ) : (
+                      <Link
+                        href={item.href}
+                        className={cn(
+                          "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                          pathname === item.href ? "bg-primary text-primary-foreground" : "hover:bg-muted",
+                        )}
+                        onClick={closeMobileSidebar}
+                      >
+                        <item.icon className="h-5 w-5" />
+                        {isSidebarOpen && <span>{item.title}</span>}
+                      </Link>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
           ))}
         </nav>
       </div>
 
-      <div className="mt-auto p-3 border-t">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className={cn("w-full justify-start px-2", !isSidebarOpen && "justify-center")}>
-              <Avatar className="h-8 w-8">
-                <AvatarImage src="/placeholder.svg?height=32&width=32" />
-                <AvatarFallback>JD</AvatarFallback>
-              </Avatar>
-              {isSidebarOpen && (
-                <div className="ml-2 flex flex-col items-start text-sm">
-                  <span>John Doe</span>
-                  <span className="text-xs text-muted-foreground">john@example.com</span>
+      <div className="mt-auto border-t">
+        <div className="p-3">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                className={cn(
+                  "w-full flex items-center gap-2 px-2 py-1.5 relative group",
+                  !isSidebarOpen && "justify-center",
+                )}
+              >
+                <div className="relative">
+                  <Avatar className="h-9 w-9 border-2 border-background">
+                    <AvatarImage src="/placeholder.svg?height=36&width=36" alt="John Doe" />
+                    <AvatarFallback>JD</AvatarFallback>
+                  </Avatar>
+                  <span
+                    className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-green-500 border-2 border-background"
+                    aria-hidden="true"
+                  />
                 </div>
-              )}
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-56">
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <User className="mr-2 h-4 w-4" />
-              <span>Profile</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Settings className="mr-2 h-4 w-4" />
-              <span>Settings</span>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <LogOut className="mr-2 h-4 w-4" />
-              <span>Log out</span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+
+                {isSidebarOpen && (
+                  <>
+                    <div className="flex flex-col items-start text-sm overflow-hidden">
+                      <span className="font-medium truncate max-w-[120px]">John Doe</span>
+                      <span className="text-xs text-muted-foreground truncate max-w-[120px]">john@example.com</span>
+                    </div>
+                    <div className="ml-auto flex items-center text-muted-foreground">
+                      <ChevronUp className="h-4 w-4 rotate-0 transition-transform group-data-[state=open]:rotate-180" />
+                    </div>
+                  </>
+                )}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align={isSidebarOpen ? "end" : "center"} side="top" className="w-64">
+              <div className="flex items-center gap-2 p-2">
+                <div className="rounded-md bg-secondary p-1">
+                  <User className="h-4 w-4" />
+                </div>
+                <div className="flex flex-col space-y-0.5">
+                  <p className="text-sm font-medium">John Doe</p>
+                  <p className="text-xs text-muted-foreground">Administrator</p>
+                </div>
+              </div>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <User className="mr-2 h-4 w-4" />
+                <span>My Profile</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Settings className="mr-2 h-4 w-4" />
+                <span>Account Settings</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Bell className="mr-2 h-4 w-4" />
+                <span>Notifications</span>
+                <span className="ml-auto flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] text-primary-foreground">
+                  3
+                </span>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <div className="p-2">
+                <div className="flex items-center justify-between">
+                  <p className="text-xs font-medium">Switch Theme</p>
+                </div>
+                <div className="mt-2 flex items-center space-x-2">
+                  <Button variant="outline" size="sm" className="w-full justify-start">
+                    <Sun className="mr-1 h-4 w-4" />
+                    Light
+                  </Button>
+                  <Button variant="outline" size="sm" className="w-full justify-start">
+                    <Moon className="mr-1 h-4 w-4" />
+                    Dark
+                  </Button>
+                </div>
+              </div>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem className="text-red-500 focus:text-red-500 focus:bg-red-50 dark:focus:bg-red-950">
+                <LogOut className="mr-2 h-4 w-4" />
+                <span>Log out</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </div>
     </>
   )
