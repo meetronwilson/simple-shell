@@ -5,6 +5,7 @@ import { Bell, Search, Moon, Sun, Monitor } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useTheme } from "next-themes"
+import Breadcrumbs from "./Breadcrumbs"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -32,7 +33,8 @@ export default function Header() {
 
   return (
     <header className="h-16 border-b flex items-center justify-between px-4 md:px-6">
-      <div>
+      <div className="flex flex-col gap-1">
+        <Breadcrumbs />
         <h1 className="text-xl font-semibold">{getPageTitle()}</h1>
       </div>
 

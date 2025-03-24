@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { Edit, ArrowLeft, Trash2, Mail, Phone, MapPin, Calendar, Clock } from "lucide-react"
+import { Edit, Trash2, Mail, Phone, MapPin, Calendar, Clock } from "lucide-react"
 import { format } from "date-fns"
 
 import { Button } from "@/components/ui/button"
@@ -50,11 +50,7 @@ export function CustomerDetails({ customerId = "REC-001" }: CustomerDetailsProps
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <Button variant="outline" size="sm" onClick={() => router.push("/customers/list")}>
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Back to Customers
-        </Button>
+      <div className="flex items-center justify-end">
         <div className="flex items-center gap-2">
           <Button variant="outline" size="sm" onClick={() => router.push(`/customers/edit/${customerId}`)}>
             <Edit className="mr-2 h-4 w-4" />
