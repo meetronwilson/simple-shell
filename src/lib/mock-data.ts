@@ -1,0 +1,73 @@
+export const mockRecords = [
+  {
+    id: "REC-001",
+    name: "Alice Johnson",
+    email: "alice@example.com",
+    status: "Active",
+    role: "Admin",
+    lastActive: "Today at 2:30 PM",
+    notes: "Alice is a key stakeholder in the project and has been with the company for 5 years.",
+    activity: [
+      { action: "Updated profile", date: "Today at 2:30 PM" },
+      { action: "Created new project", date: "Yesterday at 1:15 PM" },
+      { action: "Commented on task #123", date: "3 days ago" },
+    ],
+  },
+  {
+    id: "REC-002",
+    name: "Bob Smith",
+    email: "bob@example.com",
+    status: "Inactive",
+    role: "User",
+    lastActive: "3 days ago",
+    notes: "Bob is currently on vacation until next week.",
+    activity: [
+      { action: "Logged in", date: "3 days ago" },
+      { action: "Completed task #456", date: "4 days ago" },
+      { action: "Uploaded document", date: "1 week ago" },
+    ],
+  },
+  {
+    id: "REC-003",
+    name: "Charlie Davis",
+    email: "charlie@example.com",
+    status: "Active",
+    role: "Editor",
+    lastActive: "Just now",
+    notes: "Charlie is working on the new feature release.",
+    activity: [
+      { action: "Edited document", date: "Just now" },
+      { action: "Assigned task to Dave", date: "2 hours ago" },
+      { action: "Created new task", date: "Yesterday" },
+    ],
+  },
+  {
+    id: "REC-004",
+    name: "Diana Miller",
+    email: "diana@example.com",
+    status: "Active",
+    role: "Viewer",
+    lastActive: "1 hour ago",
+    notes: "Diana joined the team last month and is still onboarding.",
+    activity: [
+      { action: "Viewed document", date: "1 hour ago" },
+      { action: "Commented on task #789", date: "5 hours ago" },
+      { action: "Completed onboarding", date: "2 weeks ago" },
+    ],
+  },
+  {
+    id: "REC-005",
+    name: "Ethan Wilson",
+    email: "ethan@example.com",
+    status: "Active",
+    role: "Admin",
+    lastActive: "30 minutes ago",
+    notes: "Ethan is responsible for the technical infrastructure.",
+    activity: [
+      { action: "Updated system settings", date: "30 minutes ago" },
+      { action: "Deployed new version", date: "2 days ago" },
+      { action: "Fixed bug #234", date: "4 days ago" },
+    ],
+  },
+]
+

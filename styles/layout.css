@@ -1,0 +1,48 @@
+.sidebar-transition {
+  transition: width 0.3s ease, transform 0.3s ease;
+}
+
+/* Detail panel transitions */
+.detail-panel-transition {
+  transition: transform 0.3s ease, width 0.3s ease;
+}
+
+/* Main content transitions */
+.main-content-transition {
+  transition: margin 0.3s ease, width 0.3s ease;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .sidebar-mobile {
+    position: fixed;
+    z-index: 50;
+    height: 100vh;
+  }
+
+  .detail-panel-mobile {
+    position: fixed;
+    z-index: 40;
+    height: 100vh;
+    width: 100%;
+  }
+}
+
+/* Utility classes for layout */
+.full-height {
+  height: 100vh;
+  height: 100dvh;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.overflow-y-auto {
+  overflow-y: auto;
+}
+
+.flex-grow {
+  flex-grow: 1;
+}
+

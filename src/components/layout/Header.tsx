@@ -1,0 +1,47 @@
+"use client"
+
+import { usePathname } from "next/navigation"
+import { Bell, Search } from "lucide-react"
+import { useLayoutState } from "@/hooks/useLayoutState"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+
+export default function Header() {
+  const pathname = usePathname()
+  const { isSidebarOpen } = useLayoutState()
+
+  // Convert path to breadcrumb
+  const getPageTitle = () => {
+    if (pathname === "/") return "Home"
+
+    const segments = pathname.split("/").filter(Boolean)
+    if (segments.length === 0) return "Home"
+
+    // Capitalize first letter
+    return segments[segments.length - 1]
+      .split("-")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ")
+  }
+
+  return (
+    <header className="h-16 border-b flex items-center justify-between px-4 md:px-6">
+      <div>
+        <h1 className="text-xl font-semibold">{getPageTitle()}</h1>
+      </div>
+
+      <div className="flex items-center gap-4">
+        <div className="relative hidden md:block">
+          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Input type="search" placeholder="Search..." className="w-[200px] lg:w-[300px] pl-8" />
+        </div>
+
+        <Button variant="ghost" size="icon" className="relative">
+          <Bell className="h-5 w-5" />
+          <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-primary"></span>
+        </Button>
+      </div>
+    </header>
+  )
+}
+
