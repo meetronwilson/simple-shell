@@ -22,6 +22,7 @@ import {
   UserPlus,
   UserCircle,
   Calendar,
+  Columns3,
 } from "lucide-react"
 import { useLayoutState } from "@/hooks/useLayoutState"
 import { cn } from "@/lib/utils"
@@ -91,6 +92,11 @@ const navigationItems = [
             href: "/customers/details",
           },
         ],
+      },
+      {
+        title: "Kanban",
+        icon: Columns3,
+        href: "/kanban",
       },
     ],
   },

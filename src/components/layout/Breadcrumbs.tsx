@@ -1,23 +1,53 @@
 "use client"
 
-import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { ChevronRight, Home } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { Home } from "lucide-react"
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
+  BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
+import React from "react"
 
-const pathMap: Record<string, string> = {
-  dashboard: "Dashboard",
-  customers: "Customers",
-  list: "List",
-  create: "Create",
-  details: "Details",
+/**
+ * Formats a path segment into a properly cased label
+ * Handles special cases, IDs, and converts kebab/snake case to title case
+ */
+function formatPathSegment(segment: string): string {
+  // Check if segment is in our predefined map
+  const pathMap: Record<string, string> = {
+    dashboard: "Dashboard",
+    customers: "Customers",
+    products: "Products",
+    orders: "Orders",
+    settings: "Settings",
+    list: "List",
+    create: "Create",
+    details: "Details",
+    edit: "Edit",
+    profile: "Profile",
+    analytics: "Analytics",
+  }
+
+  // Return mapped value if it exists
+  if (pathMap[segment.toLowerCase()]) {
+    return pathMap[segment.toLowerCase()]
+  }
+
+  // Check if segment is an ID (numeric or UUID)
+  if (/^[0-9]+$/.test(segment) || /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(segment)) {
+    return `ID: ${segment.slice(0, 8)}${segment.length > 8 ? "..." : ""}`
+  }
+
+  // Convert kebab-case or snake_case to Title Case
+  return segment
+    .replace(/-|_/g, " ")
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ")
 }
 
 export default function Breadcrumbs() {
@@ -27,33 +57,39 @@ export default function Breadcrumbs() {
   if (segments.length === 0) return null
 
   return (
-    <Breadcrumb>
-      <BreadcrumbList>
+    <Breadcrumb className="overflow-auto py-2 scrollbar-hide">
+      <BreadcrumbList className="flex-nowrap">
+        {/* Home item */}
         <BreadcrumbItem>
-          <BreadcrumbLink href="/" className="flex items-center gap-1">
-            <Home className="h-4 w-4" />
-            <span>Home</span>
+          <BreadcrumbLink href="/" className="flex items-center gap-1 text-muted-foreground hover:text-foreground">
+            <Home className="h-3.5 w-3.5" />
+            <span className="sr-only sm:not-sr-only sm:inline">Home</span>
           </BreadcrumbLink>
         </BreadcrumbItem>
+
+        {/* Render segments with separators between items */}
         {segments.map((segment, index) => {
           const isLast = index === segments.length - 1
           const href = `/${segments.slice(0, index + 1).join("/")}`
-          const label = pathMap[segment] || segment
+          const label = formatPathSegment(segment)
 
           return (
-            <BreadcrumbItem key={segment}>
-              <span className="mx-2 text-muted-foreground">
-                <ChevronRight className="h-4 w-4" />
-              </span>
-              {isLast ? (
-                <BreadcrumbPage>{label}</BreadcrumbPage>
-              ) : (
-                <BreadcrumbLink href={href}>{label}</BreadcrumbLink>
-              )}
-            </BreadcrumbItem>
+            <React.Fragment key={`segment-${href}`}>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                {isLast ? (
+                  <BreadcrumbPage className="font-medium">{label}</BreadcrumbPage>
+                ) : (
+                  <BreadcrumbLink href={href} className="text-muted-foreground hover:text-foreground">
+                    {label}
+                  </BreadcrumbLink>
+                )}
+              </BreadcrumbItem>
+            </React.Fragment>
           )
         })}
       </BreadcrumbList>
     </Breadcrumb>
   )
-} 
+}
+
