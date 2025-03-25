@@ -23,6 +23,7 @@ import {
   UserCircle,
   Calendar,
   Columns3,
+  Table,
 } from "lucide-react"
 import { useLayoutState } from "@/hooks/useLayoutState"
 import { cn } from "@/lib/utils"
@@ -94,9 +95,21 @@ const navigationItems = [
         ],
       },
       {
-        title: "Kanban",
-        icon: Columns3,
-        href: "/kanban",
+        title: "Data Display",
+        icon: Users,
+        href: "/",
+        subItems: [
+          {
+            title: "Kanban",
+            icon: Columns3,
+            href: "/kanban",
+          },
+          {
+            title: "Data Table",
+            icon: Table,
+            href: "/data-table",
+          },
+        ],
       },
     ],
   },

@@ -15,6 +15,7 @@ A modern, responsive layout system built with Next.js 14, featuring a dynamic si
 - 📅 Calendar integration
 - 🔍 Search functionality in components
 - 🗺️ Dynamic breadcrumb navigation
+- 📊 Advanced data tables with sorting and filtering
 
 ## Tech Stack
 
@@ -25,6 +26,7 @@ A modern, responsive layout system built with Next.js 14, featuring a dynamic si
 - React Context API
 - React Beautiful DND
 - React Hook Form
+- TanStack Table
 
 ## Getting Started
 
@@ -128,6 +130,19 @@ Extensive collection of UI components from shadcn/ui:
 - Dropdowns and Select
 - Cards and Containers
 - And many more...
+
+### Data Tables
+
+Feature-rich data table implementation with:
+
+- Column sorting and filtering
+- Pagination controls
+- Custom column rendering
+- Responsive design
+- Search functionality
+- Projects and tasks examples
+- Column visibility toggle
+- Row selection
 
 ## Contributing
 
