@@ -21,6 +21,7 @@ import {
   List,
   UserPlus,
   UserCircle,
+  Calendar,
 } from "lucide-react"
 import { useLayoutState } from "@/hooks/useLayoutState"
 import { cn } from "@/lib/utils"
@@ -48,6 +49,16 @@ const navigationItems = [
         title: "Analytics",
         icon: BarChart3,
         href: "/analytics",
+      },
+    ],
+  },
+  {
+    group: "Apps",
+    items: [
+      {
+        title: "Calendar",
+        icon: Calendar,
+        href: "/calendar",
       },
     ],
   },
