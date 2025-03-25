@@ -11,6 +11,10 @@ A modern, responsive layout system built with Next.js 14, featuring a dynamic si
 - 📊 Dashboard layout with header and detail panel
 - 🎯 Customer management interface
 - 🎭 Theme customization support
+- 📋 Kanban board with drag-and-drop
+- 📅 Calendar integration
+- 🔍 Search functionality in components
+- 🗺️ Dynamic breadcrumb navigation
 
 ## Tech Stack
 
@@ -19,6 +23,8 @@ A modern, responsive layout system built with Next.js 14, featuring a dynamic si
 - Tailwind CSS
 - Shadcn/ui components
 - React Context API
+- React Beautiful DND
+- React Hook Form
 
 ## Getting Started
 
@@ -59,9 +65,13 @@ simple-shell/
 │   ├── app/                    # Next.js app directory
 │   │   ├── dashboard/         # Dashboard page
 │   │   ├── customers/         # Customers page
+│   │   ├── calendar/         # Calendar page
+│   │   ├── kanban/          # Kanban board page
 │   │   └── layout.tsx         # Root layout
 │   ├── components/            # React components
 │   │   ├── layout/           # Layout components
+│   │   ├── kanban/          # Kanban components
+│   │   ├── calendar/        # Calendar components
 │   │   └── ui/               # UI components
 │   ├── context/              # React context
 │   ├── hooks/                # Custom hooks
@@ -81,10 +91,43 @@ The project implements a flexible layout system with the following components:
 - **Header**: Top navigation bar with user menu
 - **DetailPanel**: Right-side panel for additional content
 - **MainContainer**: Main content area
+- **Breadcrumbs**: Dynamic breadcrumb navigation
+
+### Kanban Board
+
+A fully-featured Kanban board implementation with:
+
+- Drag-and-drop functionality
+- Customizable lanes
+- Search and filtering
+- Custom card rendering
+- Priority indicators
+- Assignee avatars
+- Due dates
+
+### Calendar Integration
+
+Interactive calendar component with:
+
+- Event management
+- Day/Week/Month views
+- Event details
+- Custom styling
 
 ### Theme Support
 
 The application supports both light and dark modes using the theme provider component. The theme can be toggled using the theme switcher in the header.
+
+### UI Components
+
+Extensive collection of UI components from shadcn/ui:
+
+- Buttons, Inputs, and Forms
+- Modals and Dialogs
+- Navigation menus
+- Dropdowns and Select
+- Cards and Containers
+- And many more...
 
 ## Contributing
 
